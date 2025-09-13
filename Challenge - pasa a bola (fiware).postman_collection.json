@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "8af12321-1427-4b0f-9b04-5f7f2d06bbc8",
-		"name": "FIWARE Descomplicado",
+		"_postman_id": "677182e8-59e7-4210-b6b2-65fcd9fdfe76",
+		"name": "Challenge - pasa a bola (fiware)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "179747"
+		"_exporter_id": "47511465",
+		"_collection_link": "https://antoniojacintoa-3182031.postman.co/workspace/Antonio-Neto's-Workspace~2592dd2f-8a40-495a-8122-577a8853e73e/collection/47511465-677182e8-59e7-4210-b6b2-65fcd9fdfe76?action=share&source=collection_link&creator=47511465"
 	},
 	"item": [
 		{
@@ -147,7 +148,7 @@
 					"response": []
 				},
 				{
-					"name": "3. Provisioning a Smart Lamp",
+					"name": "3. Provisioning a Smart Device",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -169,7 +170,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"devices\": [\n    {\n      \"device_id\": \"lamp001\",         // Identificador único do dispositivo\n      \"entity_name\": \"urn:ngsi-ld:Lamp:001\",   // Nome da entidade para o dispositivo (formato URN)\n      \"entity_type\": \"Lamp\",          // Tipo da entidade (neste caso, \"Lamp\")\n      \"protocol\": \"PDI-IoTA-UltraLight\",  // Protocolo usado para a comunicação (no exemplo, PDI-IoTA-UltraLight)\n      \"transport\": \"MQTT\",            // Método de transporte (neste caso, MQTT)\n\n      // Lista de comandos que o dispositivo pode receber\n      \"commands\": [\n        { \"name\": \"on\", \"type\": \"command\" },  // Comando para ligar\n        { \"name\": \"off\", \"type\": \"command\" }  // Comando para desligar\n      ],\n\n      // Lista de atributos associados ao dispositivo\n      \"attributes\": [\n        { \"object_id\": \"s\", \"name\": \"state\", \"type\": \"Text\" }, // Atributo de estado (Texto)\n        { \"object_id\": \"l\", \"name\": \"luminosity\", \"type\": \"Integer\" }  // Atributo de luminosidade (Inteiro)\n      ]\n    }\n  ]\n}\n"
+							"raw": "{\n  \"devices\": [\n    {\n      \"device_id\": \"placar001\",         // Identificador único do dispositivo\n      \"entity_name\": \"urn:ngsi-ld:Placar:001\",   // Nome da entidade para o dispositivo (formato URN)\n      \"entity_type\": \"Placar\",          // Tipo da entidade (neste caso, \"Lamp\")\n      \"protocol\": \"PDI-IoTA-UltraLight\",  // Protocolo usado para a comunicação (no exemplo, PDI-IoTA-UltraLight)\n      \"transport\": \"MQTT\",            // Método de transporte (neste caso, MQTT)\n\n      // Lista de atributos associados ao dispositivo\n      \"attributes\": [\n        { \"object_id\": \"scoreA\", \"name\": \"scoreA\", \"type\": \"Integer\" }, // Atributo de estado (Texto)\n        { \"object_id\": \"scoreB\", \"name\": \"scoreB\", \"type\": \"Integer\" }  // Atributo de luminosidade (Inteiro)\n      ]\n    }\n  ]\n}\n"
 						},
 						"url": {
 							"raw": "http://{{url}}:4041/iot/devices",
@@ -181,46 +182,6 @@
 							"path": [
 								"iot",
 								"devices"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4. Registering Smart Lamp Commands",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "fiware-service",
-								"value": "smart",
-								"type": "text"
-							},
-							{
-								"key": "fiware-servicepath",
-								"value": "/",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"description\": \"Lamp Commands\", // Descrição do serviço de notificação\n  \"dataProvided\": {\n    \"entities\": [\n      {\n        \"id\": \"urn:ngsi-ld:Lamp:001\", \"type\": \"Lamp\" // Definição da entidade a ser monitorada\n      }\n    ],\n    \"attrs\": [\"on\", \"off\"] // Atributos a serem monitorados (no caso, 'on' e 'off')\n  },\n  \"provider\": {\n    \"http\": { \"url\": \"http://{{url}}:4041\" }, // URL do serviço a ser notificado\n    \"legacyForwarding\": true // Indicação para encaminhar notificações de forma legada (se aplicável)\n  }\n}\n"
-						},
-						"url": {
-							"raw": "http://{{url}}:1026/v2/registrations",
-							"protocol": "http",
-							"host": [
-								"{{url}}"
-							],
-							"port": "1026",
-							"path": [
-								"v2",
-								"registrations"
 							]
 						}
 					},
@@ -258,49 +219,7 @@
 					"response": []
 				},
 				{
-					"name": "6. Switching on the Smart Lamp",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "fiware-service",
-								"value": "smart",
-								"type": "text"
-							},
-							{
-								"key": "fiware-servicepath",
-								"value": "/",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"on\": {\n      \"type\" : \"command\",\n      \"value\" : \"\"\n  }\n}"
-						},
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs",
-							"protocol": "http",
-							"host": [
-								"{{url}}"
-							],
-							"port": "1026",
-							"path": [
-								"v2",
-								"entities",
-								"urn:ngsi-ld:Lamp:001",
-								"attrs"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "7. Result of  Smart Lamp Luminosity",
+					"name": "Result of score A",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -321,7 +240,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/luminosity",
+							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Placar:001/attrs/scoreA",
 							"protocol": "http",
 							"host": [
 								"{{url}}"
@@ -330,55 +249,16 @@
 							"path": [
 								"v2",
 								"entities",
-								"urn:ngsi-ld:Lamp:001",
+								"urn:ngsi-ld:Placar:001",
 								"attrs",
-								"luminosity"
+								"scoreA"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "8. Result of  Smart Lamp State",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "fiware-service",
-								"value": "smart",
-								"type": "text"
-							},
-							{
-								"key": "fiware-servicepath",
-								"value": "/",
-								"type": "text"
-							},
-							{
-								"key": "accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:Lamp:001/attrs/state",
-							"protocol": "http",
-							"host": [
-								"{{url}}"
-							],
-							"port": "1026",
-							"path": [
-								"v2",
-								"entities",
-								"urn:ngsi-ld:Lamp:001",
-								"attrs",
-								"state"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "9. Delete Smart Lamp in IoT Agent",
+					"name": "9. Delete Smart Device in IoT Agent",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -410,7 +290,7 @@
 					"response": []
 				},
 				{
-					"name": "10. Delete Smart Lamp in Orion",
+					"name": "10. Delete Smart Device in Orion",
 					"request": {
 						"method": "DELETE",
 						"header": [
