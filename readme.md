@@ -55,6 +55,7 @@ sudo docker-compose up -d
 ![Arquitetura do ESP32](ArquiteturaESP32.png)
 
 ### Configuração do ESP32
+## Simulação Wokwi: https://wokwi.com/projects/441797974384439297
 
 1. Faça o upload do código para o ESP32.
 
