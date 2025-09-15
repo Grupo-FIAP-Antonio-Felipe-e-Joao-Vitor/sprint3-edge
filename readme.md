@@ -1,5 +1,5 @@
 # Placar Eletrônico com ESP32 e FIWARE descomplicado
-
+## Turma 1ESPH
 ## Autores: 
 - Antônio Jacinto de Andrade Neto (RM: 561777)
 - Felipe Bicaletto (RM: 563524)
